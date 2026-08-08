@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+Add Trek
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Add Trek</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Trek Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Location</label>
+            <input type="text" name="location" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Difficulty</label>
+            <select name="difficulty" class="form-control" required>
+                <option>Easy</option>
+                <option>Moderate</option>
+                <option>Hard</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Duration (days) </label>
+            <input type="number" name="duration" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label>Available Slots</label>
+            <input type="number" name="slots" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label>Start Date</label>
+            <input type="date" name="start_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control" required>
+                <option value="Open">Open</option>
+                <option value="Full">Full</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <button class="btn btn-success">
+            Create Trek
+        </button>
+        <a href="/admin" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+</div>
+{% endblock %}

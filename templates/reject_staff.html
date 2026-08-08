@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+Reject Staff
+{% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2>Confirm Rejection</h2>
+    <p>
+        Are you sure you want to reject the staff registration request of <strong>{{ staff.name }}</strong>?
+    </p>
+    <form method="POST">
+        <button type="submit" class="btn btn-danger">
+            Yes, Reject
+        </button>
+        <a href="/admin/pending_staff" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+</div>
+{% endblock %}

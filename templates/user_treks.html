@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}
+Browse Treks
+{% endblock %}
+{% block content %}
+<div class = "container mt-4">
+    <h2>Browse Treks</h2>
+    <br>
+    <h3>Available Treks</h3>
+    <form method="GET" action="/user/treks" class="row mb-3">
+        <div class="col-md-5">
+            <input type="text" name="location" class="form-control" placeholder="Search by location" value="{{ location }}">
+        </div>
+        <div class="col-md-4">
+            <select name="difficulty" class="form-select">
+                <option value="" {% if difficulty == "" %}selected {% endif %}>All Difficulties</option>
+                <option value="Easy" {% if difficulty == "Easy" %}selected {% endif %}>Easy</option>
+                <option value="Moderate" {% if difficulty == "Moderate" %}selected {% endif %}>Moderate</option>
+                <option value="Hard" {% if difficulty == "Hard" %}selected {% endif %}>Hard</option>
+            </select>
+        </div>
+        <div class="col-md-3"><button class="btn btn-primary w-100">Search</button></div><br>
+        <div class="col-md-1"><a href="/user/treks" class="btn btn-secondary w-100">Clear</a></div>
+    </form>
+    {% if available_treks %}
+    <table class="table table-bordered table-hover">
+        <tr class="table-dark">
+            <th>Name</th>
+            <th>Difficulty</th>
+            <th>Location</th>
+            <th>Available Slots</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for trek in available_treks %}
+        <tr>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ available_slots[trek.id] }}</td>
+            <td>{{ trek.status }}</td>
+            <td><a href="/user/trek/{{ trek.id }}" class="btn btn-success btn-sm">Book Now</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else%}
+    <div class="alert alert-info">No treks are currently available for booking</div>
+    {% endif %}
+    <a href="/user" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}

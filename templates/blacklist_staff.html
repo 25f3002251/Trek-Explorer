@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}
+{% if blacklist %} Blacklist {% else %} Unblacklist {% endif %} Staff
+{% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2>{% if blacklist %} Confirm {% else %} Remove {% endif %} Blacklist</h2>
+    <p>
+       {% if blacklist %} 
+       Are you sure you want to blacklist the staff <strong>{{ staff.name }}</strong>?
+       {% else %}
+       Remove <strong>{{ staff.name }}</strong> from the blacklist?
+       {% endif %}
+    </p>
+    <form method="POST">
+        {% if blacklist %}
+        <button type="submit" class="btn btn-danger">
+            Yes, Blacklist
+        </button>
+        <a href="/admin/pending_staff?status=approved" class="btn btn-secondary">
+            Cancel
+        </a>
+        {% else %}
+        <button type="submit" class="btn btn-success">
+            Yes, Remove
+        </button>
+        <a href="/admin/pending_staff?status=blacklisted" class="btn btn-secondary">
+            Cancel
+        </a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

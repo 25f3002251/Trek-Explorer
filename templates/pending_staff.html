@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}
+Pending Staff
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Approve new staff registrations, blacklist stafff members or restore blacklisted staff.</h2>
+    <a href="/admin/pending_staff?status=pending" {% if status=="pending" %}class="btn btn-warning"{% else %}class="btn btn-outline-warning"{% endif %}>Pending ({{ pending_count }})</a>
+    <a href="/admin/pending_staff?status=approved" {% if status=="approved" %}class="btn btn-success"{% else %}class="btn btn-outline-success"{% endif %}>Approved ({{ approved_count }})</a>
+    <a href="/admin/pending_staff?status=blacklisted" {% if status=="blacklisted" %}class="btn btn-danger"{% else %}class="btn btn-outline-danger"{% endif %}>Blacklisted({{ blacklisted_count }})</a>
+    <form method="GET" action="/admin/pending_staff" class="row mb-3">
+    <input type="hidden" name="status" value="{{ status }}">
+    <div class="col-md-8">
+        <input type="text" name="search" class="form-control" placeholder="Search by name or email" value="{{ search }}">
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100"> Search </button>
+    </div>
+    <div class="col-md-2">
+        <a href="/admin/pending_staff?status={{ status }}"
+           class="btn btn-secondary w-100">
+            Clear
+        </a>
+    </div>
+    </form>
+    {% if staff %}
+    <table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for member in staff %}
+        <tr>
+            <td>{{ member.id }}</td>
+            <td>{{ member.name }}</td>
+            <td>
+                {% if member.blacklisted %}
+                Blacklisted
+                {% elif member.approved %}
+                Approved
+                {% else %}
+                Pending
+                {% endif %}
+            </td>
+            <td>{{ member.email }}</td>
+            <td>
+                {% if status=="pending" %}
+                <a href="/admin/approve_staff/{{ member.id }}" class = "btn btn-success">Approve</a>
+                <a href="/admin/reject_staff/{{ member.id }}" class="btn btn-danger">Reject</a>
+                {% elif status=="approved" %}
+                <a href="/admin/blacklist_staff/{{ member.id }}" class="btn btn-danger btn-sm">Blacklist</a>
+                {% else %}
+                <a href ="/admin/unblacklist_staff/{{ member.id }}" class="btn btn-success btn-sm">Remove Blacklist</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="alert alert-info">
+        No staff members found.
+    </div>
+    {% endif %}
+</div>
+<div class="container mt-5 text-center">
+    <a href="/admin" class="btn btn-primary mt-3">
+        Go Back
+    </a>
+</div>
+{% endblock %}

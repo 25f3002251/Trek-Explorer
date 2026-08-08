@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}
+{{ trek.name }}
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="bg-dark text-white rounded p-4 text-center mb-4">
+        <h2>{{ trek.name }}</h2>
+        <p class="mb-0">Historical Trek Details</p>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">Trek Information</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Location:</strong> {{ trek.location }}</p>
+                    <p><strong>Difficulty:</strong> {{ trek.difficulty }}</p>
+                    <p><strong>Duration:</strong> {{ trek.duration }} Days</p>
+                    <p><strong>Start Date:</strong> {{ trek.start_date }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>End Date:</strong> {{ trek.end_date }}</p>
+                    <p><strong>Total Slots:</strong> {{ trek.available_slots }}</p>
+                    <p>
+                        <strong>Assigned Staff:</strong>
+                        {% if staff %}
+                            {{ staff.name }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </p>
+                    <p><strong>Participants Completed:</strong>{{ bookcount }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Participants</h4>
+        </div>
+        <div class="card-body">
+            {% if bookings %}
+            <table class="table table-bordered table-hover">
+                <tr class="table-dark">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Booking Date</th>
+                    <th>Status</th>
+                </tr>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ users[booking.user_id].name }}</td>
+                    <td>{{ users[booking.user_id].email }}</td>
+                    <td>{{ booking.booking_date }}</td>
+                    <td>
+                        <span class="badge bg-success">
+                            Completed
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <div class="alert alert-info">
+                No participants completed this trek.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="mt-4">
+        <a href="/admin/history" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

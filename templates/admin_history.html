@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Historical Treks
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Historical Trek Data</h2>
+
+    {% if treks %}
+
+    <table class="table table-bordered table-hover">
+        <tr class="table-dark">
+            <th>Trek</th>
+            <th>Location</th>
+            <th>Staff</th>
+            <th>Participants</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Action</th>
+        </tr>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>
+                {% if trek.id in staff %}
+                    {{ staff[trek.id].name }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+            <td>{{ participant_count[trek.id] }}</td>
+            <td>{{ trek.start_date }}</td>
+            <td>{{ trek.end_date }}</td>
+            <td>
+                <a href="/admin/history/{{ trek.id }}" class="btn btn-primary btn-sm">View Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="alert alert-info">No completed treks found.</div>
+    {% endif %}
+    <a href="/admin" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}

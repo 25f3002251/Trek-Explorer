@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}
+All Bookings
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">All Bookings</h2>
+    <form method="GET" action="/admin/bookings" class="row mb-3">
+        <div class="col-md-4">
+            <select name="status" class="form-select">
+                <option value="" {% if status=="" %}selected{% endif %}>All Status</option>
+                <option value="Booked" {% if status=="Booked" %}selected{% endif %}>Booked</option>
+                <option value="Cancelled" {% if status=="Cancelled" %}selected{% endif %}>Cancelled</option>
+                <option value="Completed" {% if status=="Completed" %}selected{% endif %}>Completed</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">Filter</button>
+        </div>
+        <div class="col-md-2">
+            <a href="/admin/bookings" class="btn btn-secondary w-100">Clear</a>
+        </div>
+    </form>
+    {% if bookings %}
+    <table class="table table-bordered table-hover">
+            <tr class="table-dark">
+                <th>User</th>
+                <th>Email</th>
+                <th>Trek</th>
+                <th>Location</th>
+                <th>Booking Date</th>
+                <th>Status</th>
+            </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ users[booking.user_id].name }}</td>
+            <td>{{ users[booking.user_id].email }}</td>
+            <td>{{ treks[booking.trek_id].name }}</td>
+            <td>{{ treks[booking.trek_id].location }}</td>
+            <td>{{ booking.booking_date }}</td>
+            <td>
+                {% if booking.status=="Booked" %}
+                    <span class="badge bg-success">Booked</span>
+                {% elif booking.status=="Cancelled" %}
+                    <span class="badge bg-danger">Cancelled</span>
+                {% else %}
+                    <span class="badge bg-primary">Completed</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}    
+    </table>
+    {% else %}
+    <div class="alert alert-info">No bookings found.</div>
+    {% endif %}
+    <a href="/admin" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}
+All Treks
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>All Treks</h2>
+    <a href="/admin/add_trek" class="btn btn-success mb-3">Add New Trek</a>
+    <form method="GET" action="/admin/treks" class="mb-3">
+        <div class="row">
+            <div class="col-md-10">
+                <input type="text" name="search" class="form-control" placeholder="Search by name, location, difficulty or status" value="{{ search if search else ''}}"> 
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">Search</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered table-striped">
+        <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Difficulty</th>
+                <th>Slots</th>
+                <th>Status</th>
+                <th>Actions</th>
+        </tr>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td>{{ trek.available_slots }}</td>
+            <td>{{ trek.status }}</td>
+            <td>
+                <a href="/admin/edit_trek/{{ trek.id }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="/admin/delete_trek/{{ trek.id }}" class="btn btn-warning btn-sm">Delete</a>
+                <a href="/admin/assign_staff/{{ trek.id }}" class="btn btn-info btn-sm">Assign Staff</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+<div class="container mt-5 text-center">
+    <a href="/admin" class="btn btn-primary mt-3">
+        Go Back
+    </a>
+</div>
+{% endblock %}

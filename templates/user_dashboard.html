@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}
+User Dashboard
+{% endblock %}
+{% block content %}
+<div class = "container mt-4">
+    <h2>Welcome, {{ user.name }}</h2>
+    <br>
+    <h3>Available Treks</h3>
+    <form method="GET" action="/user" class="row mb-3">
+        <div class="col-md-5">
+            <input type="text" name="location" class="form-control" placeholder="Search by location" value="{{ location }}">
+        </div>
+        <div class="col-md-4">
+            <select name="difficulty" class="form-select">
+                <option value="" {% if difficulty == "" %}selected {% endif %}>All Difficulties</option>
+                <option value="Easy" {% if difficulty == "Easy" %}selected {% endif %}>Easy</option>
+                <option value="Moderate" {% if difficulty == "Moderate" %}selected {% endif %}>Moderate</option>
+                <option value="Hard" {% if difficulty == "Hard" %}selected {% endif %}>Hard</option>
+            </select>
+        </div>
+        <div class="col-md-3"><button class="btn btn-primary w-100">Search</button></div>
+        <div class="col-md-1"><a href="/user" class="btn btn-secondary w-100">Clear</a></div>
+    </form>
+    {% if available_treks %}
+    <table class="table table-bordered table-hover">
+        <tr class="table-dark">
+            <th>Name</th>
+            <th>Difficulty</th>
+            <th>Location</th>
+            <th>Available Slots</th>
+            <th>Action</th>
+        </tr>
+        {% for trek in available_treks %}
+        <tr>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ available_slots[trek.id] }}</td>
+            <td><a href="/user/trek/{{ trek.id }}" class="btn btn-success btn-sm">Book Now</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/user/treks" class="btn btn-primary mb-4">Browse All Treks</a>
+    {% else%}
+    <div class="alert alert-info">No treks are currently available for booking</div>
+    {% endif %}
+    <hr>
+    <h3>My Bookings</h3>
+    {% if my_bookings %}
+    <table class="table table-bordered table-hover">
+        <tr class="table-dark">
+            <th>Trek</th>
+            <th>Booking Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for booking in my_bookings %}
+        <tr>
+            <td>{{ treks[booking.trek_id].name }}</td>
+            <td>{{ booking.booking_date }}</td>
+            <td>{{ booking.status }}</td>
+            <td><a href="/user/trek/{{ booking.trek_id }}" class="btn btn-primary btn-sm">View Details</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/user/bookings" class="btn btn-primary mb-4">View All Bookings</a>
+    {% else %}
+    <div class="alert alert-info">You have no active bookings.</div>
+    {% endif %}
+    <hr>
+    <h3>Trekking History</h3>
+    <a href="/user/history" class="btn btn-secondary">View Trekking History</a>
+</div>
+<div class="mt-4">
+    <a href="/logout" class="btn btn-primary"> Logout </a>
+    <a href="/user/profile" class="btn btn-primary">Edit Profile</a>
+</div>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}
+{{ trek.name }}
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="bg-primary text-white rounded p-4 text-center mb-4">
+        <h2>{{ trek.name }}</h2>
+        <p class="mb-0">Adventure Awaits!</p>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Trek Information</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <strong> Location:</strong>
+                        {{ trek.location }}
+                    </p>
+                    <p>
+                        <i class="bi bi-signpost-split-fill"></i>
+                        <strong> Difficulty:</strong>
+                        {% if trek.difficulty=="Easy" %}
+                        <span class="badge bg-success">
+                            Easy
+                        </span>
+                        {% elif trek.difficulty=="Moderate" %}
+                        <span class="badge bg-warning text-dark">
+                            Moderate
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger">
+                            Hard
+                        </span>
+                        {% endif %}
+                    </p>
+                    <p>
+                        <i class="bi bi-hourglass-split"></i>
+                        <strong> Duration:</strong>
+                        {{ trek.duration }} Days
+                    </p>
+                    <p>
+                        <i class="bi bi-calendar-event"></i>
+                        <strong> Start Date:</strong>
+                        {{ trek.start_date }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <i class="bi bi-calendar-check"></i>
+                        <strong> End Date:</strong>
+                        {{ trek.end_date }}
+                    </p>
+                    <p>
+                        <i class="bi bi-people-fill"></i>
+                        <strong> Available Slots:</strong>
+                        {{ available_slots }}
+                    </p>
+                    <p>
+                        <i class="bi bi-person-badge-fill"></i>
+                        <strong> Assigned Staff:</strong>
+                        {% if staff %}
+                        {{ staff.name }}
+                        {% else %}
+                        Not Assigned
+                        {% endif %}
+                    </p>
+                    <p>
+                        <i class="bi bi-flag-fill"></i>
+                        <strong> Status:</strong>
+                        {% if trek.status=="Open" %}
+                        <span class="badge bg-success">
+                            Open
+                        </span>
+                        {% elif trek.status=="Full" %}
+                        <span class="badge bg-warning text-dark">
+                            Full
+                        </span>
+                        {% elif trek.status=="Ongoing" %}
+                        <span class="badge bg-primary">
+                            Ongoing
+                        </span>
+                        {% else %}
+                        <span class="badge bg-dark">
+                            Completed
+                        </span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <h5>Capacity</h5>
+            <span>{{ booked }} / {{ trek.available_slots }} Booked</span>
+            <div class="progress mb-3">
+                <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: {{ percentage }}%;"
+                    aria-valuenow="{{ percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4">
+        <div class="card-header">
+            Trek Tips
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>Carry sufficient drinking water.</li>
+                <li>Wear proper trekking shoes.</li>
+                <li>Follow your trek leader's instructions.</li>
+                <li>Help keep the trekking trail clean.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="mt-4 d-flex justify-content-between">
+        {% if booking and booking.status=="Booked" %}
+        <form method="POST" action="/user/cancel/{{ booking.id }}">
+            <button type="submit" class="btn btn-danger">Cancel Booking</button>
+        </form>
+        {% elif booking and booking.status=="Completed" %}
+        <button class="btn btn-primary" disabled>Trek Completed</button>
+         {% else %}
+        <form method="POST" action="/user/book/{{ trek.id }}">
+            <button type="submit" class="btn btn-success">Book Now</button>   
+        </form>
+        {% endif %}
+        <a href="/user" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

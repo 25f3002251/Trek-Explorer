@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}
+Staff Dashboard
+{% endblock %}
+{% block content %}
+<div class = "container mt-5">
+    <h2 class="mb-4">Staff Dashboard</h2>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Assigned Treks</h5>
+                    <h2>{{ assigned_treks }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Participants</h5>
+                    <h2>{{ total_participants }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Open Treks</h5>
+                    <h2>{{ open_treks }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "container mt-4">
+        <h2>My Assigned Treks</h2>
+        {% if treks %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Participants</th>
+                <th>Slots</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {% for trek in treks %}
+            <tr>
+                <td>{{ trek.name }}</td>
+                <td>{{ trek.location }}</td>
+                <td>{{ participant_count[trek.id] }}</td>
+                <td>{{ trek.available_slots }}</td>
+                <td>{{ trek.status }}</td>
+                <td><a href="/staff/trek/{{ trek.id }}" class="btn btn-primary btn-sm">View</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <div class="alert alert-info">No treks have been assigned to you</div>
+        {% endif %}
+    </div>
+</div>
+<div class="mt-4">
+    <a href="/logout" class="btn btn-primary"> Logout </a>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}
+Edit Trek
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Trek</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Trek Name</label>
+            <input type="text" name="name" class="form-control" value="{{ trek.name }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Location</label>
+            <input type="text" name="location" class="form-control" value="{{ trek.location }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Difficulty</label>
+            <select name="difficulty" class="form-control" required>
+                <option value="Easy" {% if trek.difficulty=="Easy" %}selected{% endif %}>Easy</option>
+                <option value="Moderate" {% if trek.difficulty=="Moderate" %}selected{% endif %}>Moderate</option>
+                <option value="Hard" {% if trek.difficulty=="Hard" %}selected{% endif %}>Hard</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Duration (days) </label>
+            <input type="number" name="duration" class="form-control" value="{{ trek.duration }}" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label>Available Slots</label>
+            <input type="number" name="slots" class="form-control" value="{{ trek.available_slots }}" min="1" required>
+        </div>
+         <div class="mb-3">
+            <label>Start Date</label>
+            <input type="date" name="start_date" value="{{ trek.start_date }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control" required>
+                <option value="Open" {% if trek.status=="Open" %}selected{% endif %}>Open</option>
+                <option value="Full" {% if trek.status=="Full" %}selected{% endif %}>Full</option>
+                <option value="Ongoing" {% if trek.status=="Ongoing" %}selected{% endif %}>Ongoing</option>
+                <option value="Completed" {% if trek.status=="Completed" %}selected{% endif %}>Completed</option>
+            </select>
+        </div>
+        <button class="btn btn-success">
+            Save Changes
+        </button>
+    </form>
+</div>
+{% endblock %}

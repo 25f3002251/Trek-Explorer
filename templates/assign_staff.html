@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+Assign Staff
+{% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2>Assign Staff to Trek</h2>
+    <h4>{{ trek.name }}</h4>
+    <p>
+        <strong>Current Staff:</strong>
+        {% if current_staff %}
+        {{ current_staff }}
+        <br>
+        {{ current_mail }}
+        {% else %}
+        No Staff Assigned
+        {% endif %}
+    </p>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Select Staff</label>
+            <select name="staff" class="form-control">
+                <option value="">No Staff Assigned</option>
+                {% for member in staff_members %}
+                <option value="{{ member.id }}">{{ member.name }} ({{ member.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-success">
+            Assign
+        </button>
+        <a href="/admin/treks" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
